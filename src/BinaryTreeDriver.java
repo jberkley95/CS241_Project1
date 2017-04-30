@@ -11,41 +11,58 @@ public class BinaryTreeDriver {
         BinaryTree binaryTree = new BinaryTree();
         String[] commandChoice = null;
 
+        //Read in initial values for tree
         System.out.print("Please enter the initial sequence of values: ");
         String[] inputAsString = input.nextLine().split("\\s+");
         for (String number : inputAsString) {
             binaryTree.insert(Integer.parseInt(number));
         }
 
-        System.out.println("Pre-order: ");
+        //Display pre, post, and in order after initial sequence
+        System.out.print("Pre-order: ");
         binaryTree.displayPreOrder();
-        System.out.println("In-order: ");
+        System.out.print("\nIn-order: ");
         binaryTree.displayInOrder();
-        System.out.println("Post-order: ");
+        System.out.print("\nPost-order: ");
         binaryTree.displayPostOrder();
+        System.out.println();
 
+        //Repeat menu process while the user does not want to exit
         while (commandChoice == null || !commandChoice[0].toUpperCase().equals("E")) {
-            System.out.println("Command? ");
+            //Read in user command to string array delimited by any combination of spaces
+            System.out.print("Command? ");
             commandChoice = input.nextLine().split("\\s+");
 
+            //Menu cases, for any value dealing with number values, proceed only if the user entered a number correctly
             switch (commandChoice[0].toUpperCase()) {
                 case "I":
                     if (commandChoice[1].matches("^-?\\d+$")) {
                         binaryTree.insert(Integer.parseInt(commandChoice[1]));
+                        System.out.print("In-order: ");
+                        binaryTree.displayInOrder();
+                        System.out.println();
                         break;
                     }
+                    break;
                 case "D":
                     if (commandChoice[1].matches("^-?\\d+$")) {
                         if (!binaryTree.delete(Integer.parseInt(commandChoice[1]))) {
                             System.out.println("The Node You're Trying To Delete Doesn't Exist!");
+                        } else {
+                            System.out.print("In-order: ");
+                            binaryTree.displayInOrder();
+                            System.out.println();
                         }
                         break;
                     }
+                    break;
                 case "P":
                     if (commandChoice[1].matches("^-?\\d+$")) {
                         Node temp = binaryTree.getPredecessor(Integer.parseInt(commandChoice[1]));
                         if (temp != null) {
                             System.out.println(temp.data);
+                        } else {
+                            System.out.println("The Node You're Looking For Has No Predecessor");
                         }
                         break;
                     }
@@ -54,6 +71,8 @@ public class BinaryTreeDriver {
                         Node temp = binaryTree.getSuccessor(Integer.parseInt(commandChoice[1]));
                         if (temp != null) {
                             System.out.println(temp.data);
+                        } else {
+                            System.out.println("The Node You're Looking For Has No Successor");
                         }
                         break;
                     }
